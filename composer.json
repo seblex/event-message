@@ -1,0 +1,15 @@
+{
+  "name": "nachtig@11/event-message",
+  "description": "messages object for ESP",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name":"nachtig@11",
+      "email": "burovav84@mail.ru"
+    }
+  ],
+  "version": "1.0.0",
+  "autoload": {
+    "classmap": ["src"]
+  }
+}
