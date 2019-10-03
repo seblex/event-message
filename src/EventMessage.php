@@ -1,5 +1,7 @@
 <?php
 
+namespace Nachtiga11\EventMessage\Src;
+
 /**
  * Class EventMessage
  */
