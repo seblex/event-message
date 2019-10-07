@@ -187,8 +187,7 @@ final class EventMessage
         return json_encode([
             'version'   => self::VERSION,
             'token'     => $this->getToken(),
-            'status'    => $this->getStatus(),
-            'message'   => $this->getMessage(),
+            'message'   => $this->getDebugInfo(),
             'body'      => $this->getBody(),
             'serviceId' => $this->getServiceId(),
             'nodeId'    => $this->getNodeId(),
