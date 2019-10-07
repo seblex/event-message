@@ -9,9 +9,13 @@ final class EventMessage
 {
     public const VERSION = 1;
 
+    private $id;
+
     private $token;
 
-    private $status;
+    private $eventType;
+
+    private $userId;
 
     private $serviceId;
 
@@ -19,85 +23,165 @@ final class EventMessage
 
     private $createdAt;
 
-    private $message;
+    private $debugInfo;
 
     private $body;
 
+    /**
+     * @return int
+     */
     public function getVersion() : int
     {
         return self::VERSION;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getToken()
     {
         return $this->token;
     }
 
-    public function getStatus()
+    /**
+     * @return mixed
+     */
+    public function getEventType()
     {
-        return $this->status;
+        return $this->eventType;
     }
 
-    public function getMessage()
+    /**
+     * @return mixed
+     */
+    public function getUserId()
     {
-        return $this->message;
+        return $this->userId;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDebugInfo()
+    {
+        return $this->debugInfo;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getBody()
     {
         return $this->body;
     }
 
+    /**
+     * @return mixed
+     */
     public function getServiceId()
     {
         return $this->serviceId;
     }
 
+    /**
+     * @return mixed
+     */
     public function getNodeId()
     {
         return $this->nodeId;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param $token
+     */
     public function setToken($token) : void
     {
         $this->token = $token;
     }
 
-    public function setStatus($status) : void
+    /**
+     * @param $id
+     */
+    public function setId($id) : void
     {
-        $this->status = $status;
+        $this->id = $id;
     }
 
-    public function setMessage($message) : void
+    /**
+     * @param $eventType
+     */
+    public function setEventType($eventType) : void
     {
-        $this->message = $message;
+        $this->eventType = $eventType;
     }
 
+    /**
+     * @param $userId
+     */
+    public function setUserId($userId) : void
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * @param $debugInfo
+     */
+    public function setDebugInfo($debugInfo) : void
+    {
+        $this->debugInfo = $debugInfo;
+    }
+
+    /**
+     * @param $body
+     */
     public function setBody($body) : void
     {
         $this->body = $body;
     }
 
+    /**
+     * @param $serviceId
+     */
     public function setServiceId($serviceId) : void
     {
         $this->serviceId = $serviceId;
     }
 
+    /**
+     * @param $nodeId
+     */
     public function setNodeId($nodeId) : void
     {
         $this->nodeId = $nodeId;
     }
 
+    /**
+     * @param $createdAt
+     */
     public function setCreatedAt($createdAt) : void
     {
         $this->createdAt = $createdAt;
     }
 
+    /**
+     * @return false|string
+     */
     public function get()
     {
         return json_encode([
@@ -108,17 +192,24 @@ final class EventMessage
             'body'      => $this->getBody(),
             'serviceId' => $this->getServiceId(),
             'nodeId'    => $this->getNodeId(),
-            'createdAt' => $this->getCreatedAt()
+            'createdAt' => $this->getCreatedAt(),
+            'id'        => $this->getId(),
+            'eventType' => $this->getEventType(),
+            'userId'    => $this->getUserId()
         ]);
     }
 
+    /**
+     * @param $eventMessage
+     * @return bool
+     */
     public function set($eventMessage) : bool
     {
         $em = json_decode($eventMessage);
-        if ($this->checkVersion($em['version'])) {
+        if ($this->checkVersion($em->version)) {
             foreach ($em as $prop => $value) {
-                if (isset($this->$prop)) {
-                    $method = 'set' . ucfirst($prop);
+                $method = 'set' . ucfirst($prop);
+                if (method_exists(self::class, $method)) {
                     $this->$method($value);
                 }
             }
@@ -126,12 +217,12 @@ final class EventMessage
         }
 
         return false;
-        //$this->setToken($em['token']);
-        //$this->setStatus($em['status']);
-        //$this->setMessage($em['message']);
-        //$this->setBody($em['body']);
     }
 
+    /**
+     * @param $version
+     * @return bool
+     */
     private function checkVersion($version) : bool
     {
         if ($version === self::VERSION) {
