@@ -185,16 +185,16 @@ final class EventMessage
     public function get()
     {
         return json_encode([
-            'version'   => self::VERSION,
-            'token'     => $this->getToken(),
-            'message'   => $this->getDebugInfo(),
-            'body'      => $this->getBody(),
-            'serviceId' => $this->getServiceId(),
-            'nodeId'    => $this->getNodeId(),
-            'createdAt' => $this->getCreatedAt(),
-            'id'        => $this->getId(),
-            'eventType' => $this->getEventType(),
-            'userId'    => $this->getUserId()
+            'version'       => self::VERSION,
+            'token'         => $this->getToken(),
+            'debugInfo'     => $this->getDebugInfo(),
+            'body'          => $this->getBody(),
+            'serviceId'     => $this->getServiceId(),
+            'nodeId'        => $this->getNodeId(),
+            'createdAt'     => $this->getCreatedAt(),
+            'id'            => $this->getId(),
+            'eventType'     => $this->getEventType(),
+            'userId'        => $this->getUserId()
         ]);
     }
 
